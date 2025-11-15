@@ -27,6 +27,17 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(Integer id, String tipo, String password, String telefono, String direccion, String mail, String username, String nombre) {
+        this.id = id;
+        this.tipo = tipo;
+        this.password = password;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.mail = mail;
+        this.username = username;
+        this.nombre = nombre;
+    }
+
     public Usuario(Integer id, String nombre, String username, String mail, String direccion, String telefono, String tipo, String password, List<Producto> productos, List<Orden> ordenes) {
         this.id = id;
         this.nombre = nombre;
