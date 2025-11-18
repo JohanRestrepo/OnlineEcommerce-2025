@@ -52,13 +52,14 @@ public class HomeController {
         producto= optionalProducto.get();
 
         detalleOrden.setCantidad(cantidad);
-        detalleOrden.setPrecio(producto.getPrecio() * cantidad);
+        detalleOrden.setPrecio(producto.getPrecio());
+        detalleOrden.setTotal(producto.getPrecio() * cantidad);
         detalleOrden.setNombre(producto.getNombre());
         detalleOrden.setProducto(producto);
 
-        detalles.add(detalleOrden);//lo cambie
+        detalles.add(detalleOrden);
 
-        sumaTotal = detalles.stream().mapToDouble(dt->dt.getPrecio()).sum();//lo cambie
+        sumaTotal = detalles.stream().mapToDouble(dt->dt.getTotal()).sum();//lo cambie
 
         orden.setTotal(sumaTotal);
 
