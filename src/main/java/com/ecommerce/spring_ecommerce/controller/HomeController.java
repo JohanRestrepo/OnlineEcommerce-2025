@@ -3,7 +3,9 @@ package com.ecommerce.spring_ecommerce.controller;
 import com.ecommerce.spring_ecommerce.model.DetalleOrden;
 import com.ecommerce.spring_ecommerce.model.Orden;
 import com.ecommerce.spring_ecommerce.model.Producto;
+import com.ecommerce.spring_ecommerce.model.Usuario;
 import com.ecommerce.spring_ecommerce.service.ProductoService;
+import com.ecommerce.spring_ecommerce.service.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,10 @@ public class HomeController {
 
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
+
     //Para almacenar los detalles de la orden
     List<DetalleOrden> detalles = new ArrayList<DetalleOrden>();
 
@@ -111,7 +117,14 @@ public class HomeController {
     }
 
     @GetMapping("/order")
-    public String order(){
+    public String order(Model model){
+
+        Usuario usuario = usuarioService.findById(1).get();
+
+        model.addAttribute("cart",detalles);
+        model.addAttribute("orden", orden);
+        model.addAttribute("usuario",usuario);
+
         return "usuario/resumenorden";
     }
 }
