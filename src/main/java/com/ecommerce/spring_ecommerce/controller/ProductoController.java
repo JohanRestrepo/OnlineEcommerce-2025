@@ -2,9 +2,8 @@ package com.ecommerce.spring_ecommerce.controller;
 
 import com.ecommerce.spring_ecommerce.model.Producto;
 import com.ecommerce.spring_ecommerce.model.Usuario;
-import com.ecommerce.spring_ecommerce.service.ProductoService;
+import com.ecommerce.spring_ecommerce.service.IProductoService;
 import com.ecommerce.spring_ecommerce.service.UploadFileService;
-import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,14 +12,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/productos")
 public class ProductoController {
 
     @Autowired
-    private ProductoService productoService;
+    private IProductoService productoService;
 
     @Autowired
     private UploadFileService upload;

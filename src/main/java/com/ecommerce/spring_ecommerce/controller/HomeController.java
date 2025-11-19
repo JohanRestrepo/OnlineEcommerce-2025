@@ -4,7 +4,7 @@ import com.ecommerce.spring_ecommerce.model.DetalleOrden;
 import com.ecommerce.spring_ecommerce.model.Orden;
 import com.ecommerce.spring_ecommerce.model.Producto;
 import com.ecommerce.spring_ecommerce.model.Usuario;
-import com.ecommerce.spring_ecommerce.service.ProductoService;
+import com.ecommerce.spring_ecommerce.service.IProductoService;
 import com.ecommerce.spring_ecommerce.service.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class HomeController {
 
     @Autowired
-    private ProductoService productoService;
+    private IProductoService productoService;
 
     @Autowired
     private UsuarioServiceImpl usuarioService;

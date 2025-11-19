@@ -1,10 +1,8 @@
 package com.ecommerce.spring_ecommerce.controller;
 
 import com.ecommerce.spring_ecommerce.model.Producto;
-import com.ecommerce.spring_ecommerce.service.ProductoService;
-import jakarta.persistence.GeneratedValue;
+import com.ecommerce.spring_ecommerce.service.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +15,7 @@ import java.util.List;
 public class AdministradorController {
 
     @Autowired
-    private ProductoService productoService;
+    private IProductoService productoService;
 
     @GetMapping("")
     public String home(Model model){
