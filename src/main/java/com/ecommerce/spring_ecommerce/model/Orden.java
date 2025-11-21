@@ -21,7 +21,7 @@ public class Orden {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "orden")
-    private List<DetalleOrden> detalles;
+    private List<DetalleOrden> detalle;
 
     public Orden() {
     }
@@ -33,7 +33,7 @@ public class Orden {
         this.fechaRecibida = fechaRecibida;
         this.total = total;
         this.usuario = usuario;
-        this.detalles = detalles;
+        this.detalle = detalle;
     }
 
     public Integer getId() {
@@ -85,11 +85,11 @@ public class Orden {
     }
 
     public List<DetalleOrden> getDetalles() {
-        return detalles;
+        return detalle;
     }
 
     public void setDetalles(List<DetalleOrden> detalles) {
-        this.detalles = detalles;
+        this.detalle = detalles;
     }
 
     @Override

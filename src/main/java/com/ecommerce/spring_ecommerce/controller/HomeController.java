@@ -4,14 +4,18 @@ import com.ecommerce.spring_ecommerce.model.DetalleOrden;
 import com.ecommerce.spring_ecommerce.model.Orden;
 import com.ecommerce.spring_ecommerce.model.Producto;
 import com.ecommerce.spring_ecommerce.model.Usuario;
+import com.ecommerce.spring_ecommerce.service.IDetalleOrdenService;
+import com.ecommerce.spring_ecommerce.service.IOrdenService;
 import com.ecommerce.spring_ecommerce.service.IProductoService;
-import com.ecommerce.spring_ecommerce.service.UsuarioServiceImpl;
+import com.ecommerce.spring_ecommerce.service.IUsuarioService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +27,13 @@ public class HomeController {
     private IProductoService productoService;
 
     @Autowired
-    private UsuarioServiceImpl usuarioService;
+    private IUsuarioService usuarioService;
+
+    @Autowired
+    private IOrdenService ordenService;
+
+    @Autowired
+    private IDetalleOrdenService detalleOrdenService;
 
     //Para almacenar los detalles de la orden
     List<DetalleOrden> detalles = new ArrayList<DetalleOrden>();
@@ -42,7 +52,9 @@ public class HomeController {
         Producto producto = new Producto();
         Optional<Producto> productoOptional = productoService.get(id);
         producto = productoOptional.get();
+
         model.addAttribute("producto", producto);
+
         return "usuario/productohome";
     }
 
@@ -53,14 +65,12 @@ public class HomeController {
         double sumaTotal = 0;
 
         Optional<Producto> optionalProducto = productoService.get(id);
-        System.out.println("Producto añadido" + optionalProducto);
-        System.out.println("Cantidad: " + cantidad);
         producto= optionalProducto.get();
 
         detalleOrden.setCantidad(cantidad);
         detalleOrden.setPrecio(producto.getPrecio());
-        detalleOrden.setTotal(producto.getPrecio() * cantidad);
         detalleOrden.setNombre(producto.getNombre());
+        detalleOrden.setTotal(producto.getPrecio() * cantidad);
         detalleOrden.setProducto(producto);
 
         //Validar que el producto no se añada mas de una vez
@@ -71,7 +81,7 @@ public class HomeController {
             detalles.add(detalleOrden);
         }
 
-        sumaTotal = detalles.stream().mapToDouble(dt->dt.getTotal()).sum();//lo cambie
+        sumaTotal = detalles.stream().mapToDouble(dt -> dt.getTotal()).sum();
 
         orden.setTotal(sumaTotal);
 
@@ -126,5 +136,31 @@ public class HomeController {
         model.addAttribute("usuario",usuario);
 
         return "usuario/resumenorden";
+    }
+
+    //Guardar la orden
+    @GetMapping("/saveOrder")
+    public String saveOrder(){
+        Date fechaCreacion = new Date();
+        orden.setFechaCreacion(fechaCreacion);
+        orden.setNumero(ordenService.generarNumeroOrden());
+
+        //Usuario
+        Usuario usuario = usuarioService.findById(1).get();
+
+        orden.setUsuario(usuario);
+        ordenService.save(orden);
+
+        //guardar detalles
+        for (DetalleOrden dt:detalles) {
+            dt.setOrden(orden);
+            detalleOrdenService.save(dt);
+        }
+
+        //Limpiar los valores de ordenes y detalles para nuevas compras
+        orden = new Orden();
+        detalles.clear();
+
+        return "redirect:/";
     }
 }
