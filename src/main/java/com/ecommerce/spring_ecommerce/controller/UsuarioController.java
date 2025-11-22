@@ -40,7 +40,6 @@ public class UsuarioController {
     @PostMapping("/acceder")
     public String acceder(Usuario usuario, HttpSession session){
         Optional<Usuario> user = usuarioService.findByMail(usuario.getMail());
-
         if(user.isPresent()){
             session.setAttribute("idusuario", user.get().getId());
             if(user.get().getTipo().equals("ADMIN")){
