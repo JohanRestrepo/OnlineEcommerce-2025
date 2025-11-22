@@ -28,4 +28,15 @@ public class UsuarioController {
         usuarioService.save(usuario);
         return "redirect:/";
     }
+
+    @GetMapping("/login")
+    public String login(){
+        return "usuario/login";
+    }
+
+    @PostMapping("/acceder")
+    public String acceder(Usuario usuario){
+        System.out.println("Usuario aceediendo: " + usuario);
+        return "redirect:/";
+    }
 }
