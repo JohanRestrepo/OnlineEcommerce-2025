@@ -11,6 +11,7 @@ import com.ecommerce.spring_ecommerce.service.IUsuarioService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +48,8 @@ public class HomeController {
     public String home(Model model, HttpSession session){
         System.out.println("Sesion del usuario: " + session.getAttribute("idusuario"));
         model.addAttribute("productos",productoService.findAll());
+        //session
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
         return "usuario/home";
     }
 
@@ -121,10 +124,13 @@ public class HomeController {
     }
 
     @GetMapping("/getCart")
-    public String getCart(Model model){
+    public String getCart(Model model, HttpSession session){
 
         model.addAttribute("cart",detalles);
         model.addAttribute("orden", orden);
+
+        //sesion
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
 
         return "usuario/carrito";
     }
